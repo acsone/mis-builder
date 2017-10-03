@@ -376,7 +376,8 @@ class MisReportInstance(models.Model):
     )
     multi_company = fields.Boolean(
         string='Multiple',
-        help="Check if you wish to specify sub-companies to be searched for data.",
+        help="Check if you wish to specify"
+             "sub-companies to be searched for data.",
         default=False,
     )
     company_ids = fields.Many2many(
