@@ -13,7 +13,7 @@ import pytz
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 from odoo.models import expression as osv_expression
-from odoo.tools.safe_eval import safe_eval
+from odoo.tools import safe_eval
 
 from .accounting_none import AccountingNone
 from .aep import AccountingExpressionProcessor as AEP
@@ -583,14 +583,16 @@ class MisReport(models.Model):
             model = self.env[query.model_id.model]
             eval_context = {
                 "env": self.env,
-                "time": time,
-                "datetime": datetime,
-                "dateutil": dateutil,
+                "time": safe_eval.time,
+                "datetime": safe_eval.datetime,
+                "dateutil": safe_eval.dateutil,
                 # deprecated
                 "uid": self.env.uid,
                 "context": self.env.context,
             }
-            domain = query.domain and safe_eval(query.domain, eval_context) or []
+            domain = (
+                query.domain and safe_eval.safe_eval(query.domain, eval_context) or []
+            )
             if get_additional_query_filter:
                 domain.extend(get_additional_query_filter(query))
             if query.date_field.ttype == "date":
