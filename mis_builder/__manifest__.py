@@ -3,7 +3,7 @@
 
 {
     "name": "MIS Builder",
-    "version": "15.0.4.1.0",
+    "version": "16.0.1.0.0",
     "category": "Reporting",
     "summary": """
         Build 'Management Information System' Reports and Dashboards
@@ -40,7 +40,7 @@
         ],
     },
     "qweb": ["static/src/xml/mis_report_widget.xml"],
-    "installable": True,
+    "installable": False,
     "application": True,
     "license": "AGPL-3",
     "development_status": "Production/Stable",

@@ -21,7 +21,7 @@ from datetime import datetime
 
 project = "MIS Builder"
 year = datetime.now().year
-copyright = "%s, Odoo Community Association (OCA)" % year
+copyright = "%s, Odoo Community Association (OCA)" % year  # pylint: disable=W0622
 author = "Odoo Community Association (OCA)"
 
 # The short X.Y version
