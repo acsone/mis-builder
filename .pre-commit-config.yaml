@@ -32,13 +32,20 @@ repos:
         entry: found a en.po file
         language: fail
         files: '[a-zA-Z0-9_]*/i18n/en\.po$'
-  - repo: https://github.com/oca/maintainer-tools
-    rev: 4cd2b852214dead80822e93e6749b16f2785b2fe
+  - repo: https://github.com/acsone/maintainer-tools
+    rev: c777f00643034d3825ae54e388b3d1b2acf09467
     hooks:
       # update the NOT INSTALLABLE ADDONS section above
       - id: oca-update-pre-commit-excluded-addons
       - id: oca-fix-manifest-website
         args: ["https://github.com/OCA/mis-builder"]
+      - id: oca-gen-addon-readme
+        args:
+          - --org-name=OCA
+          - --repo-name=mis-builder
+          - --branch=16.0
+          - --convert-fragments-to-markdown
+          - --addons-dir=.
   - repo: https://github.com/myint/autoflake
     rev: v1.6.1
     hooks:
