@@ -251,16 +251,29 @@ class KpiMatrix:
                 else:
                     val_comment = f"{row.kpi.name} = {row.kpi.expression}"
             cell_style_props = row.style_props
-            if row.kpi.style_expression:
+
+            style_expression = ""
+            if (
+                row.kpi.multi
+                and subcol.subkpi
+                and row.kpi.expression_ids.filtered(
+                    lambda rec, subkpi=subcol.subkpi: rec.subkpi_id == subkpi
+                ).style_expression
+            ):
+                style_expression = row.kpi.expression_ids.filtered(
+                    lambda rec, subkpi=subcol.subkpi: rec.subkpi_id == subkpi
+                ).style_expression
+            elif row.kpi.style_expression:
+                style_expression = row.kpi.style_expression
+
+            if style_expression:
                 # evaluate style expression
                 try:
-                    style_name = mis_safe_eval(
-                        row.kpi.style_expression, col.locals_dict
-                    )
+                    style_name = mis_safe_eval(style_expression, col.locals_dict)
                 except Exception:
                     _logger.error(
                         "Error evaluating style expression <%s>",
-                        row.kpi.style_expression,
+                        style_expression,
                         exc_info=True,
                     )
                 if style_name:
