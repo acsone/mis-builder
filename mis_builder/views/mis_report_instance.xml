@@ -414,6 +414,7 @@
                         options="{'model': 'source_aml_model_name'}"
                         attrs="{'invisible': [('source_aml_model_name', '=', False)]}"
                     />
+                    <field name="hide_period_based_on_instance_date" />
                 </group>
             </form>
         </field>

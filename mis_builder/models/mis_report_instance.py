@@ -284,6 +284,10 @@ class MisReportInstancePeriod(models.Model):
         help="A domain to additionally filter move lines considered in this column.",
     )
 
+    hide_period_based_on_instance_date = fields.Boolean(
+        help="Dynamically hide this period depending on the base date of the instance",
+    )
+
     _order = "sequence, id"
 
     _sql_constraints = [
@@ -843,6 +847,19 @@ class MisReportInstance(models.Model):
         elif period.source == SRC_CMPCOL:
             return self._add_column_cmpcol(aep, kpi_matrix, period, label, description)
 
+    def _get_periods(self):
+        periods = self.env["mis.report.instance.period"]
+
+        for period in self.period_ids:
+            if (
+                period.hide_period_based_on_instance_date
+                and self.pivot_date < period.date_to
+            ):
+                continue
+            periods += period
+
+        return periods
+
     def _compute_matrix(self):
         """Compute a report and return a KpiMatrix.
 
@@ -852,7 +869,10 @@ class MisReportInstance(models.Model):
         self.ensure_one()
         aep = self.report_id._prepare_aep(self.query_company_ids, self.currency_id)
         kpi_matrix = self.report_id.prepare_kpi_matrix(self.multi_company)
-        for period in self.period_ids:
+
+        periods = self._get_periods()
+
+        for period in periods:
             description = None
             if period.mode == MODE_NONE:
                 pass
