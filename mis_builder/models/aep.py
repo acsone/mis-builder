@@ -415,14 +415,18 @@ class AccountingExpressionProcessor:
                 credit = entry.credit
                 if field == "bal":
                     v += debit - credit
-                elif field == "pbal" and debit >= credit:
-                    v += debit - credit
-                elif field == "nbal" and debit < credit:
-                    v += debit - credit
+                elif field == "pbal":
+                    if debit >= credit:
+                        v += debit - credit
+                elif field == "nbal":
+                    if debit < credit:
+                        v += debit - credit
                 elif field == "deb":
                     v += debit
                 elif field == "crd":
                     v += credit
+                else:
+                    raise AssertionError("should not be here")
             # in initial balance mode, assume 0 is None
             # as it does not make sense to distinguish 0 from "no data"
             if (
@@ -472,6 +476,8 @@ class AccountingExpressionProcessor:
                 v = debit
             elif field == "crd":
                 v = credit
+            else:
+                raise AssertionError("should not be here")
             # in initial balance mode, assume 0 is None
             # as it does not make sense to distinguish 0 from "no data"
             if (
