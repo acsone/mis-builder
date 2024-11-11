@@ -12,7 +12,6 @@ from odoo.tools.float_utils import float_is_zero
 from odoo.tools.safe_eval import datetime, dateutil, safe_eval, time
 
 from .accounting_none import AccountingNone
-from .simple_array import named_simple_array
 
 _logger = logging.getLogger(__name__)
 
@@ -24,7 +23,52 @@ def _is_domain(s):
     return _DOMAIN_START_RE.match(s)
 
 
-DebitCredit = named_simple_array("DebitCredit", ["debit", "credit"])
+class Accumulator:
+    """A simple class to accumulate debit, credit and custom field values.
+
+    >>> acc1 = Accumulator(["f1", "f2"])
+    >>> acc1.debit
+    AccountingNone
+    >>> acc1.credit
+    AccountingNone
+    >>> acc1.custom_fields
+    {'f1': AccountingNone, 'f2': AccountingNone}
+    >>> acc1.add_debit_credit(10, 20)
+    >>> acc1.debit, acc1.credit
+    (10, 20)
+    >>> acc1.add_custom_field("f1", 10)
+    >>> acc1.custom_fields
+    {'f1': 10, 'f2': AccountingNone}
+    >>> acc2 = Accumulator(["f1", "f2"])
+    >>> acc2.add_debit_credit(21, 31)
+    >>> acc2.add_custom_field("f2", 41)
+    >>> acc1 += acc2
+    >>> acc1.debit, acc1.credit
+    (31, 51)
+    >>> acc1.custom_fields
+    {'f1': 10, 'f2': 41}
+    """
+
+    def __init__(self, custom_field_names=()):
+        self.debit = AccountingNone
+        self.credit = AccountingNone
+        self.custom_fields = {
+            custom_field: AccountingNone for custom_field in custom_field_names
+        }
+
+    def add_debit_credit(self, debit, credit):
+        self.debit += debit
+        self.credit += credit
+
+    def add_custom_field(self, field, value):
+        self.custom_fields[field] += value
+
+    def __iadd__(self, other):
+        self.debit += other.debit
+        self.credit += other.credit
+        for field in self.custom_fields:
+            self.custom_fields[field] += other.custom_fields[field]
+        return self
 
 
 class AccountingExpressionProcessor:
@@ -329,10 +373,10 @@ class AccountingExpressionProcessor:
             aml_model = self.env[aml_model]
         aml_model = aml_model.with_context(active_test=False)
         company_rates = self._get_company_rates(date_to)
-        # {(domain, mode): {account_id: (debit, credit)}}
+        # {(domain, mode): {account_id: Accumulator}}
         self._data = defaultdict(
             lambda: defaultdict(
-                lambda: DebitCredit((AccountingNone, AccountingNone)),
+                lambda: Accumulator(),
             )
         )
         domain_by_mode = {}
@@ -381,9 +425,11 @@ class AccountingExpressionProcessor:
                 ):
                     # in initial mode, ignore accounts with 0 balance
                     continue
-                # due to branches, it's possible to have multiple acc
-                # with the same account_id
-                self._data[key][account_id.id] += (debit * rate, credit * rate)
+                # due to branches, it's possible to have multiple groups
+                # with the same account_id, because multiple companies can
+                # use the same account
+                account_data = self._data[key][account_id.id]
+                account_data.add_debit_credit(debit * rate, credit * rate)
         # compute ending balances by summing initial and variation
         for key in ends:
             domain, mode = key
@@ -391,9 +437,8 @@ class AccountingExpressionProcessor:
             variation_data = self._data[(domain, self.MODE_VARIATION)]
             account_ids = set(initial_data.keys()) | set(variation_data.keys())
             for account_id in account_ids:
-                self._data[key][account_id] += (
-                    initial_data[account_id] + variation_data[account_id]
-                )
+                self._data[key][account_id] += initial_data[account_id]
+                self._data[key][account_id] += variation_data[account_id]
 
     def replace_expr(self, expr):
         """Replace accounting variables in an expression by their amount.
@@ -511,7 +556,7 @@ class AccountingExpressionProcessor:
         aep.parse_expr(expr)
         aep.done_parsing()
         aep.do_queries(date_from, date_to)
-        return aep._data[((), mode)]
+        return {k: (v.debit, v.credit) for k, v in aep._data[((), mode)].items()}
 
     @classmethod
     def get_balances_initial(cls, companies, date):

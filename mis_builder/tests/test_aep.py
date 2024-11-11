@@ -9,9 +9,13 @@ from odoo import fields
 from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
 
+from ..models import aep
 from ..models.accounting_none import AccountingNone
 from ..models.aep import AccountingExpressionProcessor as AEP
 from ..models.aep import _is_domain
+from .common import load_doctests
+
+load_tests = load_doctests(aep)
 
 
 class TestAEP(common.TransactionCase):
