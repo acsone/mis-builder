@@ -74,12 +74,14 @@ class Accumulator:
 class AccountingExpressionProcessor:
     """Processor for accounting expressions.
 
-    Expressions of the form <field><mode>[accounts][optional move line domain]
+    Expressions of the form
+    <field><mode>(.fieldname)?[accounts][optional move line domain]
     are supported, where:
         * field is bal, crd, deb, pbal (positive balances only),
-          nbal (negative balance only)
+          nbal (negative balance only), fld (custom field)
         * mode is i (initial balance), e (ending balance),
           p (moves over period)
+        * .fieldname is used only with fldp and specifies the field name to sum
         * there is also a special u mode (unallocated P&L) which computes
           the sum from the beginning until the beginning of the fiscal year
           of the period; it is only meaningful for P&L accounts
@@ -93,6 +95,7 @@ class AccountingExpressionProcessor:
           over the period (it is the same as balp[70]);
         * bali[70,60]: balance of accounts 70 and 60 at the start of period;
         * bale[1%]: balance of accounts starting with 1 at end of period.
+        * fldp.quantity[60%]: sum of the quantity field of moves on accounts 60
 
     How to use:
         * repeatedly invoke parse_expr() for each expression containing
