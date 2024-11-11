@@ -388,11 +388,9 @@ class AccountingExpressionProcessor:
             variation_data = self._data[(domain, self.MODE_VARIATION)]
             account_ids = set(initial_data.keys()) | set(variation_data.keys())
             for account_id in account_ids:
-                di, ci = initial_data.get(account_id, (AccountingNone, AccountingNone))
-                dv, cv = variation_data.get(
-                    account_id, (AccountingNone, AccountingNone)
+                self._data[key][account_id] += (
+                    initial_data[account_id] + variation_data[account_id]
                 )
-                self._data[key][account_id] = (di + dv, ci + cv)
 
     def replace_expr(self, expr):
         """Replace accounting variables in an expression by their amount.
@@ -409,9 +407,7 @@ class AccountingExpressionProcessor:
             v = AccountingNone
             account_ids = self._account_ids_by_acc_domain[acc_domain]
             for account_id in account_ids:
-                debit, credit = account_ids_data.get(
-                    account_id, (AccountingNone, AccountingNone)
-                )
+                debit, credit = account_ids_data[account_id]
                 if field == "bal":
                     v += debit - credit
                 elif field == "pbal" and debit >= credit:
@@ -452,9 +448,7 @@ class AccountingExpressionProcessor:
                 return "(AccountingNone)"
             # here we know account_id is involved in acc_domain
             account_ids_data = self._data[key]
-            debit, credit = account_ids_data.get(
-                account_id, (AccountingNone, AccountingNone)
-            )
+            debit, credit = account_ids_data[account_id]
             if field == "bal":
                 v = debit - credit
             elif field == "pbal":
