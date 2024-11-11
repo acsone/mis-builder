@@ -12,7 +12,7 @@ from odoo.tools.float_utils import float_is_zero
 from odoo.tools.safe_eval import datetime, dateutil, safe_eval, time
 
 from .accounting_none import AccountingNone
-from .simple_array import SimpleArray
+from .simple_array import named_simple_array
 
 _logger = logging.getLogger(__name__)
 
@@ -22,6 +22,9 @@ _DOMAIN_START_RE = re.compile(r"\(|(['\"])[!&|]\1")
 def _is_domain(s):
     """Test if a string looks like an Odoo domain"""
     return _DOMAIN_START_RE.match(s)
+
+
+DebitCredit = named_simple_array("DebitCredit", ["debit", "credit"])
 
 
 class AccountingExpressionProcessor:
@@ -329,7 +332,7 @@ class AccountingExpressionProcessor:
         # {(domain, mode): {account_id: (debit, credit)}}
         self._data = defaultdict(
             lambda: defaultdict(
-                lambda: SimpleArray((AccountingNone, AccountingNone)),
+                lambda: DebitCredit((AccountingNone, AccountingNone)),
             )
         )
         domain_by_mode = {}
@@ -407,7 +410,9 @@ class AccountingExpressionProcessor:
             v = AccountingNone
             account_ids = self._account_ids_by_acc_domain[acc_domain]
             for account_id in account_ids:
-                debit, credit = account_ids_data[account_id]
+                entry = account_ids_data[account_id]
+                debit = entry.debit
+                credit = entry.credit
                 if field == "bal":
                     v += debit - credit
                 elif field == "pbal" and debit >= credit:
@@ -448,7 +453,9 @@ class AccountingExpressionProcessor:
                 return "(AccountingNone)"
             # here we know account_id is involved in acc_domain
             account_ids_data = self._data[key]
-            debit, credit = account_ids_data[account_id]
+            entry = account_ids_data[account_id]
+            debit = entry.debit
+            credit = entry.credit
             if field == "bal":
                 v = debit - credit
             elif field == "pbal":
