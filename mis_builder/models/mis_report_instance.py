@@ -770,7 +770,6 @@ class MisReportInstance(models.Model):
         )
 
     def export_xls(self):
-        self.ensure_one()
         return self.env.ref("mis_builder.xls_export").report_action(
             self, data=dict(dummy=True)
         )  # required to propagate context
@@ -940,3 +939,10 @@ class MisReportInstance(models.Model):
             return f"{kpi.description} - {account.display_name} - {period.display_name}"
         else:
             return f"{kpi.description} - {period.display_name}"
+
+    def _get_xlsx_report_name(self):
+        self.ensure_one()
+        return "{} - {}".format(
+            self.name,
+            ", ".join([a.name for a in self.query_company_ids]),
+        )
