@@ -6,7 +6,7 @@ import numbers
 from collections import defaultdict
 from datetime import datetime
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 
 from ..models.accounting_none import AccountingNone
 from ..models.data_error import DataError
@@ -28,6 +28,14 @@ class MisBuilderXlsx(models.AbstractModel):
 
     def _get_worksheet_name(self, mis_instance):
         return mis_instance._get_xlsx_report_name()[:31]
+
+    @api.model
+    def _mis_builder_add_annotation(self, sheet, cell, row_pos, col_pos):
+        """
+        Add anotation as a comment on cell in .xls
+        """
+        if annotation := cell.annotation.get("note_text"):
+            sheet.write_comment(row_pos, col_pos, annotation)
 
     def _generate_xlsx_one_report(self, workbook, mis_instance):
         # get the computed result of the report
@@ -150,6 +158,7 @@ class MisBuilderXlsx(models.AbstractModel):
                     else:
                         val = cell.val
                 sheet.write(row_pos, col_pos, val, cell_format)
+                self._mis_builder_add_annotation(sheet, cell, row_pos, col_pos)
                 col_width[col_pos] = max(
                     col_width[col_pos], len(cell.val_rendered or "")
                 )

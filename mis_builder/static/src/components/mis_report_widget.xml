@@ -85,21 +85,49 @@
                                     t-as="cell"
                                     t-key="cell_index"
                                     t-att="{'style': cell.style, 'title': cell.val_c}"
-                                    class="mis_builder_amount"
+                                    class="mis_builder_amount dropdown-mis-builder"
                                 >
-                                    <t t-if="cell.drilldown_arg">
+                                    <div class="btn-group dropdown">
                                         <a
                                             href="javascript:void(0)"
-                                            class="mis_builder_drilldown"
-                                            t-on-click="drilldown"
-                                            t-att-data-drilldown="JSON.stringify(cell.drilldown_arg)"
+                                            data-bs-toggle="dropdown"
+                                            t-attf-class="dropdown-toggle"
                                         >
                                             <t t-esc="cell.val_r" />
+                                            <span
+                                                t-if="cell.note_sequence"
+                                                class="footnote-mis-builder"
+                                                t-att="{'title': cell.note_text}"
+                                            >
+                                                <t t-out="cell.note_sequence" />
+                                            </span>
                                         </a>
-                                    </t>
-                                    <t t-if="!cell.drilldown_arg">
-                                        <t t-esc="cell.val_r" />
-                                    </t>
+                                        <div
+                                            class="dropdown-menu o_filter_menu"
+                                            role="menu"
+                                        >
+                                            <div
+                                                href="javascript:void(0)"
+                                                class="dropdown-item js_tag"
+                                                t-on-click="drilldown"
+                                                t-att-data-drilldown="JSON.stringify(cell.drilldown_arg)"
+                                                t-if="cell.drilldown_arg"
+                                                role="menuitem"
+                                            >
+                                                Explore
+                                            </div>
+                                            <a
+                                                href="javascript:void(0)"
+                                                t-on-click="annotate"
+                                                t-att-data-annotation="JSON.stringify(cell.annotation_arg)"
+                                                t-if="cell.annotation_arg"
+                                                role="menuitem"
+                                                class="dropdown-item js_tag"
+                                            >
+                                                Annotate
+                                            </a>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>
@@ -108,8 +136,39 @@
                         </tfoot>
                     </table>
                 </div>
+                <!-- Adding notes -->
+                <div>
+                    <ul>
+                        <t
+                            t-foreach="state.mis_report_data.notes"
+                            t-as="note"
+                            t-key="note_index"
+                        >
+                            <li><t t-out="note.note_sequence" />. <t
+                                    t-out="note.note_text"
+                                />  <i
+                                    href="javascript:void(0)"
+                                    t-on-click="remove_annotation"
+                                    t-att-data-rmv-annotation="note.note_index"
+                                    class="btn fa fa-trash-o"
+                                /></li>
+                        </t>
+                    </ul>
+                </div>
             </t>
         </div>
+    </t>
+
+    <t t-name="mis_builder.annotation_dialog">
+        <form role="form">
+            <textarea
+                class="o_mis_builder_annotation_text"
+                name="note"
+                rows='4'
+                placeholder="Insert note here"
+                id="test"
+            ><t t-out="text" t-att-data-textnote="text" /></textarea>
+        </form>
     </t>
 
 </templates>
