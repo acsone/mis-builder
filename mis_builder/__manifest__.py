@@ -17,6 +17,7 @@
         "date_range",  # OCA/server-ux
     ],
     "data": [
+        "security/res_groups.xml",
         "wizard/mis_builder_dashboard.xml",
         "views/mis_report.xml",
         "views/mis_report_instance.xml",

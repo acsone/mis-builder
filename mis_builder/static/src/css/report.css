@@ -44,3 +44,9 @@
 .mis_table .mis_cell.mis_amount {
     text-align: right;
 }
+.footnote-mis-builder {
+    font-size: 70%;
+    color: #fd0000;
+    position: relative;
+    bottom: 1ex;
+}
