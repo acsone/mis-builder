@@ -8,6 +8,8 @@ import {SearchBar} from "@web/search/search_bar/search_bar";
 import {SearchModel} from "@web/search/search_model";
 import {parseDate} from "@web/core/l10n/dates";
 import {registry} from "@web/core/registry";
+import Dialog from "web.Dialog";
+import {qweb} from "web.core";
 
 export class MisReportWidget extends Component {
     setup() {
@@ -18,8 +20,10 @@ export class MisReportWidget extends Component {
         this.view = useService("view");
         this.JSON = JSON;
         this.state = useState({
-            mis_report_data: {header: [], body: []},
+            mis_report_data: {header: [], body: [], notes: []},
             pivot_date: null,
+            can_edit_annotation: false,
+            can_read_annotation: false,
         });
         this.searchModel = new SearchModel(this.env, {
             user: this.user,
@@ -138,6 +142,12 @@ export class MisReportWidget extends Component {
             [this._instanceId()],
             {context: this.context}
         );
+        this.state.can_edit_annotation = await this.user.hasGroup(
+            "mis_builder.group_edit_annotation"
+        );
+        this.state.can_read_annotation = await this.user.hasGroup(
+            "mis_builder.group_read_annotation"
+        );
     }
 
     async printPdf() {
@@ -168,6 +178,135 @@ export class MisReportWidget extends Component {
             {context: this.context}
         );
         this.action.doAction(action);
+    }
+
+    async _remove_annotation(note_arg) {
+        const note = this.state.mis_report_data.notes.filter((note) => {
+            const [periodId, kpiId, subKpiId] = note.note_index;
+            return (
+                (kpiId === note_arg.kpi_id ||
+                    (Boolean(kpiId) === false && Boolean(note_arg.kpiId) === false)) &&
+                (note_arg.period_id === periodId ||
+                    (Boolean(periodId) === false &&
+                        Boolean(note_arg.period_id) === false)) &&
+                (note_arg.subkpi_id === subKpiId ||
+                    (Boolean(subKpiId) === false &&
+                        Boolean(note_arg.subkpi_id) === false))
+            );
+        });
+        if (note[0]) {
+            // Erase content of note
+            note[0].note_text = "";
+            note[0].note_sequence = "/";
+        }
+
+        await this.orm.call(
+            "mis.report.instance.annotation",
+            "remove_annotation",
+            [note_arg.period_id, note_arg.kpi_id, note_arg.subkpi_id],
+            {context: this.context}
+        );
+    }
+
+    async _save_annotation(note_arg) {
+        const text = $(".o_mis_builder_annotation_text").val();
+        const note_text = this.state.mis_report_data.notes.filter((note) => {
+            const [periodId, kpiId, subKpiId] = note.note_index;
+            return (
+                kpiId === note_arg.kpi_id &&
+                note_arg.period_id === periodId &&
+                note_arg.subkpi_id === subKpiId
+            );
+        });
+        if (note_text[0]) {
+            note_text[0].note_text = text;
+        } else {
+            this.state.mis_report_data.notes.push({
+                note_index: [note_arg.period_id, note_arg.kpi_id, note_arg.subkpi_id],
+                note_text: text,
+            });
+        }
+
+        await this.orm.call(
+            "mis.report.instance.annotation",
+            "set_annotation",
+            [note_arg.period_id, note_arg.kpi_id, note_arg.subkpi_id, text],
+            {context: this.context}
+        );
+    }
+
+    async annotate(event) {
+        const note_arg = $(event.target).data("annotation");
+        const note_text = this.associated_note(note_arg);
+        if (note_text[0]) {
+            new Dialog(this, {
+                title: "Annotate",
+                size: "medium",
+                $content: $(
+                    qweb.render("mis_builder.annotation_dialog", {
+                        text: note_text[0].note_text,
+                    })
+                ),
+                buttons: [
+                    {
+                        text: this.env._t("Save"),
+                        classes: "btn-primary",
+                        close: true,
+                        click: this._save_annotation.bind(this, note_arg),
+                    },
+                    {
+                        text: this.env._t("Cancel"),
+                        close: true,
+                    },
+                    {
+                        text: this.env._t("Remove"),
+                        classes: "btn-secondary",
+                        close: true,
+                        click: this._remove_annotation.bind(this, note_arg),
+                    },
+                ],
+            }).open();
+        } else {
+            new Dialog(this, {
+                title: "Annotate",
+                size: "medium",
+                $content: $(qweb.render("mis_builder.annotation_dialog", {text: ""})),
+                buttons: [
+                    {
+                        text: this.env._t("Save"),
+                        classes: "btn-primary",
+                        close: true,
+                        click: this._save_annotation.bind(this, note_arg),
+                    },
+                    {
+                        text: this.env._t("Cancel"),
+                        close: true,
+                    },
+                ],
+            }).open();
+        }
+    }
+
+    async remove_annotation(event) {
+        const anotation_idx = $(event.target).data("rmv-annotation").split(",");
+        this._remove_annotation({
+            period_id: parseInt(anotation_idx[0]),
+            kpi_id: parseInt(anotation_idx[1]),
+            subkpi_id: parseInt(anotation_idx[2]),
+        });
+    }
+
+    associated_note(note_arg) {
+        // Filter
+        const note_text = this.state.mis_report_data.notes.filter((note) => {
+            const [periodId, kpiId, subKpiId] = note.note_index;
+            return (
+                kpiId === note_arg.kpi_id &&
+                note_arg.period_id === periodId &&
+                note_arg.subkpi_id === subKpiId
+            );
+        });
+        return note_text;
     }
 
     onDateTimeChanged(ev) {
