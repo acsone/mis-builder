@@ -867,6 +867,17 @@ class MisReportInstance(models.Model):
             period._get_additional_move_line_filter(),
             period.source_aml_model_name,
         )
+        annotations = self.env["mis.report.instance.annotation"].search(
+            [
+                ("period_id", "=", period.id),
+            ]
+        )
+
+        note_by_subkpi_id = {
+            (note.kpi_id.id, note.subkpi_id.id): note.note for note in annotations
+        }
+        locals_dict = {"notes": note_by_subkpi_id}
+
         self.report_id._declare_and_compute_period(
             expression_evaluator,
             kpi_matrix,
@@ -875,6 +886,7 @@ class MisReportInstance(models.Model):
             description,
             period.subkpi_ids,
             period._get_additional_query_filter,
+            locals_dict=locals_dict,
             no_auto_expand_accounts=self.no_auto_expand_accounts,
         )
 
