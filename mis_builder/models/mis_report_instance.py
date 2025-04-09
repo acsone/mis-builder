@@ -867,6 +867,7 @@ class MisReportInstance(models.Model):
             period._get_additional_move_line_filter(),
             period.source_aml_model_name,
         )
+
         self.report_id._declare_and_compute_period(
             expression_evaluator,
             kpi_matrix,
@@ -915,6 +916,24 @@ class MisReportInstance(models.Model):
             lambda rec: rec._period_should_be_displayed(self.pivot_date)
         )
 
+    def _add_notes(self, kpi_matrix, period):
+        """
+        Add notes linked to period on kpi matrix
+        """
+        if not self.env.user.has_group("mis_builder.group_read_annotation"):
+            return
+        annotations = self.env["mis.report.instance.annotation"].search(
+            [
+                ("period_id", "=", period.id),
+                ("company_id", "=", self.env.company.id),
+            ]
+        )
+        note_by_period_kpi_subkpi = {
+            (period.id, note.kpi_id.id, note.subkpi_id.id): note.note
+            for note in annotations
+        }
+        kpi_matrix.add_notes(note_by_period_kpi_subkpi)
+
     def _compute_matrix(self):
         """Compute a report and return a KpiMatrix.
 
@@ -941,6 +960,7 @@ class MisReportInstance(models.Model):
                     date_from=date_from,
                     date_to=date_to,
                 )
+            self._add_notes(kpi_matrix, period)
             self._add_column(aep, kpi_matrix, period, period.name, description)
         kpi_matrix.compute_comparisons()
         kpi_matrix.compute_sums()

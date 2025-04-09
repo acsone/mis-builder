@@ -134,6 +134,8 @@ class KpiMatrixCell:  # noqa: B903 (immutable data class)
         style_props,
         drilldown_arg,
         val_type,
+        annotation_arg,
+        annotation,
     ):
         self.row = row
         self.subcol = subcol
@@ -143,6 +145,8 @@ class KpiMatrixCell:  # noqa: B903 (immutable data class)
         self.style_props = style_props
         self.drilldown_arg = drilldown_arg
         self.val_type = val_type
+        self.annotation_arg = annotation_arg
+        self.annotation = annotation
 
 
 class KpiMatrix:
@@ -166,6 +170,8 @@ class KpiMatrix:
         # { account_id: account_name }
         self._account_names = {}
         self._multi_company = multi_company
+        # {col_key,kpi_id,subkpi_id: note}
+        self._notes = {}
 
     def declare_kpi(self, kpi):
         """Declare a new kpi (row) in the matrix.
@@ -174,6 +180,18 @@ class KpiMatrix:
         """
         self._kpi_rows[kpi] = KpiMatrixRow(self, kpi)
         self._detail_rows[kpi] = {}
+
+    def add_notes(self, notes):
+        """
+        Add notes and set a sequence that corresponds to the order of insertion
+        """
+        seq = len(self._notes) + 1
+        for (period_id, kpi_id, subkpi_id), note in notes.items():
+            self._notes[(period_id, kpi_id, subkpi_id)] = {
+                "note_text": note,
+                "note_sequence": seq,
+            }
+            seq += 1
 
     def declare_col(self, col_key, label, description, locals_dict, subkpis):
         """Declare a new column, giving it an identifier (key).
@@ -286,6 +304,7 @@ class KpiMatrix:
                 else:
                     val_comment = f"{row.kpi.name} = {row.kpi.expression}"
 
+            subkpi = (subcol.subkpi and subcol.subkpi.id) or False
             cell = KpiMatrixCell(
                 row,
                 subcol,
@@ -295,6 +314,8 @@ class KpiMatrix:
                 cell_style_props,
                 drilldown_arg,
                 kpi.type,
+                {"kpi_id": kpi.id, "period_id": col_key, "subkpi_id": subkpi},
+                self._notes.get((col_key, kpi.id, subkpi), {}),
             )
             cell_tuple.append(cell)
         assert len(cell_tuple) == col.colspan
@@ -377,6 +398,9 @@ class KpiMatrix:
                         1,
                     )
                     delta, delta_r, delta_style, delta_type = comparison
+                    subkpi = (
+                        comparison_subcol.subkpi and comparison_subcol.subkpi.id
+                    ) or False
                     comparison_cell_tuple.append(
                         KpiMatrixCell(
                             row,
@@ -387,6 +411,12 @@ class KpiMatrix:
                             delta_style,
                             None,
                             delta_type,
+                            {
+                                "kpi_id": row.kpi.id,
+                                "period_id": col_key,
+                                "subkpi_id": subkpi,
+                            },
+                            self._notes.get((col_key, row.kpi.id, subkpi), {}),
                         )
                     )
                 comparison_col._set_cell_tuple(row, comparison_cell_tuple)
@@ -460,6 +490,9 @@ class KpiMatrix:
             detail_rows = self._detail_rows[kpi_row.kpi].values()
             detail_rows = sorted(detail_rows, key=lambda r: r.label)
             yield from detail_rows
+
+    def iter_notes(self):
+        yield from sorted(self._notes.values(), key=lambda r: r.get("note_sequence", 0))
 
     def iter_cols(self):
         """Iterate columns in display order.
@@ -545,10 +578,24 @@ class KpiMatrix:
                         "style": self._style_model.to_css_style(
                             cell.style_props, no_indent=True
                         ),
+                        "annotation_arg": cell.annotation_arg,
                     }
                     if cell.drilldown_arg:
                         col_data["drilldown_arg"] = cell.drilldown_arg
+
+                    note_idx = (
+                        cell.annotation_arg.get("period_id"),
+                        cell.annotation_arg.get("kpi_id"),
+                        cell.annotation_arg.get("subkpi_id"),
+                    )
+                    if note := self._notes.get(note_idx):
+                        col_data["note_sequence"] = note["note_sequence"]
+                        col_data["note_text"] = note["note_text"]
                     row_data["cells"].append(col_data)
             body.append(row_data)
 
-        return {"header": header, "body": body}
+        notes = [
+            dict(note, note_index=note_idx) for note_idx, note in self._notes.items()
+        ]
+
+        return {"header": header, "body": body, "notes": notes}

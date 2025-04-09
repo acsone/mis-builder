@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record model="res.groups" id="group_read_annotation">
+        <field name="name">Mis report: read annotation</field>
+    </record>
+    <record model="res.groups" id="group_edit_annotation">
+        <field name="name">Mis report: edit annotation</field>
+        <field
+            name="implied_ids"
+            eval="[Command.link(ref('mis_builder.group_read_annotation'))]"
+        />
+    </record>
+</odoo>
