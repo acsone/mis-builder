@@ -13,6 +13,7 @@ from odoo.exceptions import UserError, ValidationError
 
 from .aep import AccountingExpressionProcessor as AEP
 from .expression_evaluator import ExpressionEvaluator
+from .kpimatrix import KpiMatrix
 
 _logger = logging.getLogger(__name__)
 
@@ -877,7 +878,35 @@ class MisReportInstance(models.Model):
     def compute(self):
         self.ensure_one()
         kpi_matrix = self._compute_matrix()
-        return kpi_matrix.as_dict()
+        ret = kpi_matrix.as_dict()
+
+        ret["notes"] = self.get_notes()
+        return ret
+
+    def get_notes(self) -> dict:
+        self.ensure_one()
+        if not self.env.user.has_group("mis_builder.group_read_annotation"):
+            return {}
+
+        annotations = self.env["mis.report.instance.annotation"].search(
+            [
+                ("period_id", "in", self.period_ids.ids),
+            ]
+        )
+        annotation_context = self._get_annotation_context()
+        annotations = annotations.filtered(
+            lambda rec: rec.annotation_context == annotation_context
+        )
+
+        return {
+            KpiMatrix._make_cell_id(
+                annotation.kpi_id.id,
+                False,
+                annotation.period_id.id,
+                annotation.subkpi_id and annotation.subkpi_id.id,
+            ): {"note_text": annotation.note, "note_sequence": sequence}
+            for sequence, annotation in enumerate(annotations, 1)
+        }
 
     @api.model
     def _get_drilldown_views_and_orders(self):
@@ -940,3 +969,13 @@ class MisReportInstance(models.Model):
             return f"{kpi.description} - {account.display_name} - {period.display_name}"
         else:
             return f"{kpi.description} - {period.display_name}"
+
+    def _get_annotation_context(self):
+        """Return the context used to filter annotation linked to this instance."""
+        self.ensure_one()
+        annotation_context = {}
+        if companies := self.query_company_ids.ids:
+            # sort ids to make the comparaison easier
+            annotation_context["query_company_ids"] = sorted(companies)
+
+        return annotation_context

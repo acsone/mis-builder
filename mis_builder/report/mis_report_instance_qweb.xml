@@ -17,6 +17,7 @@
             <t t-foreach="docs" t-as="o">
                 <t t-call="web.internal_layout">
                     <t t-set="matrix" t-value="o._compute_matrix()" />
+                    <t t-set="notes" t-value="o.get_notes()" />
                     <t t-set="style_obj" t-value="o.env['mis.report.style']" />
                     <div class="page">
                         <h3>
@@ -97,11 +98,31 @@
                                                 <t
                                                     t-out="cell and cell.val_rendered or ''"
                                                 />
+                                                <span class="footnote-mis-builder">
+                                                    <t
+                                                        t-out="notes.get(cell.cell_id,{}).get('note_sequence','')"
+                                                    />
+                                                </span>
                                             </div>
                                         </t>
                                     </div>
                                 </t>
                             </div>
+                        </div>
+                        <!-- Foot notes -->
+                        <div>
+                            <ul>
+                                <t
+                                    t-foreach="sorted(notes.values(),key=lambda r:r['note_sequence'])"
+                                    t-as="note"
+                                >
+                                    <li><span class="footnote-mis-builder"><t
+                                                t-out="note['note_sequence']"
+                                            /></span> <t
+                                            t-out="note['note_text']"
+                                        /></li>
+                                </t>
+                            </ul>
                         </div>
                     </div>
                 </t>
