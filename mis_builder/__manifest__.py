@@ -17,6 +17,7 @@
         "date_range",  # OCA/server-ux
     ],
     "data": [
+        "security/res_groups.xml",
         "wizard/mis_builder_dashboard.xml",
         "views/mis_report.xml",
         "views/mis_report_instance.xml",
@@ -32,6 +33,8 @@
             "mis_builder/static/src/components/mis_report_widget.esm.js",
             "mis_builder/static/src/components/mis_report_widget.xml",
             "mis_builder/static/src/components/mis_report_widget.scss",
+            "mis_builder/static/src/annotation_dialog/annotation_dialog.xml",
+            "mis_builder/static/src/annotation_dialog/annotation_dialog.esm.js",
         ],
         "web.report_assets_common": [
             "mis_builder/static/src/scss/report.scss",
