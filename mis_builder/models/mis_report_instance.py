@@ -14,6 +14,7 @@ from odoo.osv.expression import AND
 
 from .aep import AccountingExpressionProcessor as AEP
 from .expression_evaluator import ExpressionEvaluator
+from .kpimatrix import KpiMatrix
 
 _logger = logging.getLogger(__name__)
 
@@ -647,6 +648,12 @@ class MisReportInstance(models.Model):
     drilldown_open_in_pop_up = fields.Boolean(
         string="Drilldown in a pop up window",
     )
+    user_can_read_annotation = fields.Boolean(
+        compute="_compute_user_can_read_annotation",
+    )
+    user_can_edit_annotation = fields.Boolean(
+        compute="_compute_user_can_edit_annotation",
+    )
 
     @api.depends("report_id.move_lines_source")
     def _compute_widget_search_view_id(self):
@@ -949,7 +956,44 @@ class MisReportInstance(models.Model):
     def compute(self):
         self.ensure_one()
         kpi_matrix = self._compute_matrix()
-        return kpi_matrix.as_dict()
+        ret = kpi_matrix.as_dict()
+
+        ret["notes"] = self.get_notes_by_cell_id()
+        return ret
+
+    def get_notes_by_cell_id(self) -> dict:
+        self.ensure_one()
+        if not self.user_can_read_annotation:
+            return {}
+
+        annotations = self.env["mis.report.instance.annotation"].search(
+            [
+                ("period_id", "in", self.period_ids.ids),
+            ]
+        )
+        annotation_context = self._get_annotation_context()
+        annotations = annotations.filtered(
+            lambda rec: rec.annotation_context == annotation_context
+        )
+
+        annotations_sorted = sorted(
+            annotations,
+            key=lambda r: (
+                r.kpi_id.sequence,
+                r.period_id.sequence,
+                r.subkpi_id.sequence,
+            ),
+        )
+
+        return {
+            KpiMatrix._make_cell_id(
+                annotation.kpi_id.id,
+                False,
+                annotation.period_id.id,
+                annotation.subkpi_id and annotation.subkpi_id.id,
+            ): {"text": annotation.note, "sequence": sequence}
+            for sequence, annotation in enumerate(annotations_sorted, 1)
+        }
 
     @api.model
     def _get_drilldown_views_and_orders(self):
@@ -1022,4 +1066,26 @@ class MisReportInstance(models.Model):
         return "{} - {}".format(
             self.name,
             ", ".join([a.name for a in self.query_company_ids]),
+        )
+
+    def _get_annotation_context(self):
+        """Return the context used to filter annotation linked to this instance."""
+        self.ensure_one()
+        annotation_context = {}
+        if query_company_ids := self.query_company_ids.ids:
+            # sort ids to make the comparaison easier
+            annotation_context["query_company_ids"] = sorted(query_company_ids)
+
+        return annotation_context
+
+    @api.depends_context("uid")
+    def _compute_user_can_read_annotation(self):
+        self.user_can_read_annotation = self.env.user.has_group(
+            "mis_builder.group_read_annotation"
+        )
+
+    @api.depends_context("uid")
+    def _compute_user_can_edit_annotation(self):
+        self.user_can_edit_annotation = self.env.user.has_group(
+            "mis_builder.group_edit_annotation"
         )
