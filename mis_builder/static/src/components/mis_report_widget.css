@@ -1,3 +1,22 @@
+.oe_mis_builder_content {
+    max-width: 98vw;
+}
+
+.oe_mis_builder_content .o_list_renderer {
+    width: 100%;
+    overflow: auto;
+    position: relative;
+    height: 95vh; /*limit the height in order for the vertical scroll to work  */
+}
+
+.oe_mis_builder_content .o_list_renderer thead th {
+    position: -webkit-sticky; /* Pour Safari */
+    position: sticky;
+    top: 0;
+    background-color: var(--gray-300);
+    z-index: 1;
+    border: 0.2px solid var(--gray-100);
+  }
 .o_web_client .mis_builder_amount {
     text-align: right;
 }
@@ -20,8 +39,7 @@
     text-decoration: underline;
 }
 
-.oe_mis_builder_content {
-}
+
 
 /* style for the control panel (search box and buttons) */
 
