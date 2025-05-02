@@ -16,8 +16,6 @@
     position: sticky;
     top: 0;
     background-color: var(--gray-300);
-    z-index: 1;
-    border: 0.2px solid var(--gray-100);
 }
 
 .o_web_client .mis_builder_amount {
