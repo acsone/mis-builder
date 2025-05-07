@@ -23,6 +23,10 @@
 .oe_mis_builder_content {
 }
 
+.oe_mis_builder_report_wide_sheet {
+    max-width: 95% !important;
+}
+
 /* style for the control panel (search box and buttons) */
 
 .oe_mis_builder_cp {
@@ -42,6 +46,11 @@
     flex-direction: column;
     flex-grow: 2;
     max-width: 1280px;
+}
+
+.oe_mis_builder_cp_right_top_right {
+    display: flex;
+    flex-direction: row;
 }
 
 .oe_mis_builder_cp_right_top {

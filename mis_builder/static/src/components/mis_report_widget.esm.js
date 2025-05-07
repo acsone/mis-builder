@@ -1,6 +1,6 @@
 /** @odoo-module **/
 
-import {Component, onWillStart, useState, useSubEnv} from "@odoo/owl";
+import {Component, onMounted, onWillStart, useState, useSubEnv} from "@odoo/owl";
 import {useBus, useService} from "@web/core/utils/hooks";
 import {DatePicker} from "@web/core/datepicker/datepicker";
 import {FilterMenu} from "@web/search/filter_menu/filter_menu";
@@ -32,6 +32,8 @@ export class MisReportWidget extends Component {
             this.refresh();
         });
         onWillStart(this.willStart);
+
+        onMounted(this._onMounted);
     }
 
     // Lifecycle
@@ -46,6 +48,7 @@ export class MisReportWidget extends Component {
                 "widget_search_view_id",
                 "pivot_date",
                 "widget_show_pivot_date",
+                "wide_display_by_default",
             ],
             {context: this.context}
         );
@@ -64,8 +67,14 @@ export class MisReportWidget extends Component {
             });
         }
 
+        this.wide_display = result.wide_display_by_default;
+
         // Compute the report
         this.refresh();
+    }
+
+    async _onMounted() {
+        this.resize_sheet();
     }
 
     get showSearchBar() {
@@ -173,6 +182,22 @@ export class MisReportWidget extends Component {
     onDateTimeChanged(ev) {
         this.state.pivot_date = ev;
         this.refresh();
+    }
+
+    async toggle_wide_display() {
+        this.wide_display = !this.wide_display;
+        this.resize_sheet();
+    }
+
+    async resize_sheet() {
+        var sheet_element = document.getElementsByClassName("o_form_sheet")[0];
+        sheet_element.classList.toggle(
+            "oe_mis_builder_report_wide_sheet",
+            this.wide_display
+        );
+        var button_resize_element = document.getElementById("icon_resize");
+        button_resize_element.classList.toggle("fa-expand", !this.wide_display);
+        button_resize_element.classList.toggle("fa-compress", this.wide_display);
     }
 }
 

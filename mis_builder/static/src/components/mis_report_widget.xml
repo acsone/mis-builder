@@ -8,6 +8,16 @@
                     <div class="oe_mis_builder_cp_left">
                     </div>
                     <div class="oe_mis_builder_cp_right">
+                        <div class="oe_mis_builder_cp_right_top_right">
+                            <div class="oe_mis_builder_action_buttons">
+                                <button
+                                    t-on-click="toggle_wide_display"
+                                    class="btn btn-secondary"
+                                >
+                                    <i id="icon_resize" class="fa" />
+                                </button>
+                            </div>
+                        </div>
                         <div class="oe_mis_builder_cp_right_top">
                             <SearchBar t-if="showSearchBar" />
                         </div>
