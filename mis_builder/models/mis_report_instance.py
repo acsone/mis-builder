@@ -648,6 +648,10 @@ class MisReportInstance(models.Model):
         string="Drilldown in a pop up window",
     )
 
+    wide_display_by_default = fields.Boolean(
+        string="Open report in wide mode by deflaut",
+    )
+
     @api.depends("report_id.move_lines_source")
     def _compute_widget_search_view_id(self):
         for rec in self:
