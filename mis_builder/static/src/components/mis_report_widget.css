@@ -3,7 +3,7 @@
     overflow: auto;
     position: relative;
     /* limit height in order for the vertical scroll to work */
-    height: 80vh;
+    max-height: 80vh;
 }
 
 .oe_mis_builder_content .o_list_renderer thead th {
