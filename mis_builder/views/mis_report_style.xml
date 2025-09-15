@@ -6,6 +6,7 @@
         <field name="arch" type="xml">
             <list>
                 <field name="name" />
+                <field name="description" type="html" optional="show" />
             </list>
         </field>
     </record>
