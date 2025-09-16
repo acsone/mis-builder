@@ -44,7 +44,11 @@
                                         name="accumulation_method"
                                         invisible="type == 'str'"
                                     />
-                                    <field name="expression" />
+                                    <field
+                                        name="expression"
+                                        widget="code"
+                                        options="{'mode': 'python'}"
+                                    />
                                 </list>
                             </field>
                         </page>
@@ -137,11 +141,17 @@
                                         name="subkpi_id"
                                         domain="[('report_id', '=', parent.report_id)]"
                                     />
-                                    <field name="name" />
+                                    <field
+                                        name="name"
+                                        widget="code"
+                                        options="{'mode': 'python'}"
+                                    />
                                 </list>
                             </field>
                             <field
                                 name="expression"
+                                widget="code"
+                                options="{'mode': 'python'}"
                                 colspan="2"
                                 nolabel="1"
                                 invisible="multi"
