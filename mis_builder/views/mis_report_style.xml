@@ -15,9 +15,14 @@
         <field name="arch" type="xml">
             <form string="MIS Report Style">
                 <sheet>
-                    <group string="Style" col="2">
-                        <field name="name" />
-                    </group>
+                    <div class="oe_title">
+                        <label for="name" />
+                        <h1>
+                            <div class="d-flex">
+                                <field name="name" />
+                            </div>
+                        </h1>
+                    </div>
                     <group string="Number" col="4">
                         <field name="dp_inherit" string="Rounding inherit" />
                         <field name="dp" invisible="dp_inherit" />
