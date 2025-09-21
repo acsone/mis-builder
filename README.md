@@ -1,9 +1,9 @@
 
-[![Runboat](https://img.shields.io/badge/runboat-Try%20me-875A7B.png)](https://runboat.odoo-community.org/builds?repo=OCA/mis-builder&target_branch=18.0)
-[![Pre-commit Status](https://github.com/OCA/mis-builder/actions/workflows/pre-commit.yml/badge.svg?branch=18.0)](https://github.com/OCA/mis-builder/actions/workflows/pre-commit.yml?query=branch%3A18.0)
-[![Build Status](https://github.com/OCA/mis-builder/actions/workflows/test.yml/badge.svg?branch=18.0)](https://github.com/OCA/mis-builder/actions/workflows/test.yml?query=branch%3A18.0)
-[![codecov](https://codecov.io/gh/OCA/mis-builder/branch/18.0/graph/badge.svg)](https://codecov.io/gh/OCA/mis-builder)
-[![Translation Status](https://translation.odoo-community.org/widgets/mis-builder-18-0/-/svg-badge.svg)](https://translation.odoo-community.org/engage/mis-builder-18-0/?utm_source=widget)
+[![Runboat](https://img.shields.io/badge/runboat-Try%20me-875A7B.png)](https://runboat.odoo-community.org/builds?repo=OCA/mis-builder&target_branch=19.0)
+[![Pre-commit Status](https://github.com/OCA/mis-builder/actions/workflows/pre-commit.yml/badge.svg?branch=19.0)](https://github.com/OCA/mis-builder/actions/workflows/pre-commit.yml?query=branch%3A19.0)
+[![Build Status](https://github.com/OCA/mis-builder/actions/workflows/test.yml/badge.svg?branch=19.0)](https://github.com/OCA/mis-builder/actions/workflows/test.yml?query=branch%3A19.0)
+[![codecov](https://codecov.io/gh/OCA/mis-builder/branch/19.0/graph/badge.svg)](https://codecov.io/gh/OCA/mis-builder)
+[![Translation Status](https://translation.odoo-community.org/widgets/mis-builder-19-0/-/svg-badge.svg)](https://translation.odoo-community.org/engage/mis-builder-19-0/?utm_source=widget)
 
 <!-- /!\ do not modify above this line -->
 
@@ -46,13 +46,7 @@ Here are some presentations:
 
 [//]: # (addons)
 
-Available addons
-----------------
-addon | version | maintainers | summary
---- | --- | --- | ---
-[mis_builder](mis_builder/) | 18.0.1.2.6 | <a href='https://github.com/sbidoul'><img src='https://github.com/sbidoul.png' width='32' height='32' style='border-radius:50%;' alt='sbidoul'/></a> | Build 'Management Information System' Reports and Dashboards
-[mis_builder_budget](mis_builder_budget/) | 18.0.1.0.3 | <a href='https://github.com/sbidoul'><img src='https://github.com/sbidoul.png' width='32' height='32' style='border-radius:50%;' alt='sbidoul'/></a> | Create budgets for MIS reports
-[mis_builder_demo](mis_builder_demo/) | 18.0.1.0.0 | <a href='https://github.com/sbidoul'><img src='https://github.com/sbidoul.png' width='32' height='32' style='border-radius:50%;' alt='sbidoul'/></a> | Demo addon for MIS Builder
+This part will be replaced when running the oca-gen-addons-table script from OCA/maintainer-tools.
 
 [//]: # (end addons)
 
