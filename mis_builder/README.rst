@@ -763,7 +763,7 @@ promote its widespread use.
 
 Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
-|maintainer-sbidoul| 
+|maintainer-sbidoul|
 
 This module is part of the `OCA/mis-builder <https://github.com/OCA/mis-builder/tree/18.0/mis_builder>`_ project on GitHub.
 
