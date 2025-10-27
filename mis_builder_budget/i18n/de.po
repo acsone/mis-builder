@@ -19,6 +19,11 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: mis_builder_budget
+#: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_item__budget_company_id
+msgid "#Technical field: Budget Company"
+msgstr ""
+
+#. module: mis_builder_budget
 #. odoo-python
 #: code:addons/mis_builder_budget/models/mis_budget_item_abstract.py:0
 msgid "%(rec_name)s is not within budget %(budget_name)s date range."
@@ -170,6 +175,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_abstract__company_id
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_by_account__company_id
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_by_account_item__company_id
+#: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_item__company_id
 msgid "Company"
 msgstr ""
 
