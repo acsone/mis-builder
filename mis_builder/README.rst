@@ -77,6 +77,12 @@ To configure this module, you need to:
 
 |image3|
 
+-  On the MIS Reports view, you can add annotations on each cells
+   (except cells coming from the option "details by account"). Added
+   notes will be pinted when exporting to PDF and Excel. Only users
+   having either the group to read or the group to update annotations
+   can see those annotations.
+
 .. |image1| image:: https://raw.githubusercontent.com/OCA/mis-builder/10.0/mis_builder/static/description/ex_report_template.png
 .. |image2| image:: https://raw.githubusercontent.com/OCA/mis-builder/10.0/mis_builder/static/description/ex_report_settings.png
 .. |image3| image:: https://raw.githubusercontent.com/OCA/mis-builder/10.0/mis_builder/static/description/ex_report_preview.png
