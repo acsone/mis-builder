@@ -11,6 +11,7 @@
     position: -webkit-sticky;
     position: sticky;
     top: 0;
+    z-index: 900;
     background-color: var(--gray-300);
 }
 
