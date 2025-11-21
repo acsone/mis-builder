@@ -447,7 +447,7 @@ class MisReport(models.Model):
             ("field_id.name", "=", "date"),
             ("field_id.name", "=", "company_id"),
         ],
-        default=_default_move_lines_source,
+        default=lambda self: self._default_move_lines_source(),
         required=True,
         ondelete="cascade",
         help="A 'move line like' model, ie having at least debit, credit, "
