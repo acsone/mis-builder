@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-11-04 10:42+0000\n"
+"PO-Revision-Date: 2025-11-26 08:28+0000\n"
 "Last-Translator: jakobkrabbe <jakob@syscare.se>\n"
 "Language-Team: none\n"
 "Language: sv\n"
@@ -64,9 +64,9 @@ msgid ""
 "                                        : balance of move lines related to "
 "tax grid 56."
 msgstr ""
-"<code> balp\n"
-"                                            balp[][('tax_line_id.tag_ids', "
-"'=', ref('l10n_be.tax_tag_56').id)]\n"
+"<code> \n"
+"                                            balp[]"
+"[('tax_line_id.tag_ids', '=', ref('l10n_be.tax_tag_56').id)]\n"
 "                                        </code>\n"
 "                                        : Balans av transaktionsrader "
 "relaterade till skattetabell 56."
@@ -83,7 +83,7 @@ msgid ""
 "and journal BNK1 during\n"
 "                                        the period."
 msgstr ""
-"<code> <kod\n"
+"<code>\n"
 "                                            debp[55%][('journal_id.code', "
 "'=',\n"
 "                                            'BNK1')]\n"
@@ -109,6 +109,10 @@ msgid ""
 "                                        positive balance, negative balance,\n"
 "                                        other numerical field."
 msgstr ""
+"<code>bal</code>, <code>crd</code>, <code>deb</code>, <code>pbal</code>, "
+"<code>nbal</code>, <code>fld</code> : saldo, debet, kredit,\n"
+"positivt saldo, negativt saldo,\n"
+"annat numeriskt fält."
 
 #. module: mis_builder
 #: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_view_kpi_form
@@ -118,8 +122,8 @@ msgid ""
 "<code>balp[70]</code>."
 msgstr ""
 "<code>bal[70]</code> : variation i saldot för konto 70 under perioden\n"
-"                                        perioden (detta är samma sak som "
-"<code>balp[70]</code>."
+"                                        (detta är samma sak som <code>balp"
+"[70]</code>."
 
 #. module: mis_builder
 #: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_view_kpi_form
@@ -165,7 +169,8 @@ msgid ""
 "the\n"
 "                                        period."
 msgstr ""
-"<code>datum_från</code>, <code>datum_till</code> : start- och slutdatum för "
+"<code>datum_från</code>, <code>datum_till</code> : start- och slutdatum för\n"
+"                                                                                           "
 "perioden."
 
 #. module: mis_builder
@@ -390,12 +395,12 @@ msgstr "Objektdomän"
 #: code:addons/mis_builder/static/src/components/mis_report_widget.esm.js:0
 #: code:addons/mis_builder/static/src/components/mis_report_widget.xml:0
 msgid "Annotate"
-msgstr ""
+msgstr "Kommentera"
 
 #. module: mis_builder
 #: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_annotation__annotation_context
 msgid "Annotation Context"
-msgstr ""
+msgstr "Kommentera innehåll"
 
 #. module: mis_builder
 #: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_view_kpi_form
@@ -503,7 +508,7 @@ msgstr "Företag för vilka uppgifter kommer att sökas."
 #. module: mis_builder
 #: model:ir.model.fields,field_description:mis_builder.field_mis_report_query__company_field_id
 msgid "Company Field"
-msgstr ""
+msgstr "Bolagsfält"
 
 #. module: mis_builder
 #: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__source_cmpcol_to_id
@@ -529,7 +534,7 @@ msgstr "Jämförelseläge"
 #. odoo-javascript
 #: code:addons/mis_builder/static/src/annotation_dialog/annotation_dialog.xml:0
 msgid "Confirm"
-msgstr ""
+msgstr "Bekräfta"
 
 #. module: mis_builder
 #: model:ir.model.fields,field_description:mis_builder.field_add_mis_report_instance_dashboard_wizard__create_uid
@@ -618,7 +623,7 @@ msgstr "Dag"
 #. module: mis_builder
 #: model:ir.model.fields,help:mis_builder.field_mis_report_style__description
 msgid "Describe specific values that are not inherited"
-msgstr ""
+msgstr "Beskriv specifika värden som inte ärvs"
 
 #. module: mis_builder
 #: model:ir.model.fields,field_description:mis_builder.field_mis_report__description
@@ -816,6 +821,8 @@ msgid ""
 "Field that defines company on related model.When set, it will be "
 "automatically be added in search domain of query."
 msgstr ""
+"Fält som definierar företag på relaterad modell. När det är inställt läggs "
+"det automatiskt till i sökdomänen för frågan."
 
 #. module: mis_builder
 #: model:ir.model.fields,field_description:mis_builder.field_mis_report_query__field_ids
@@ -919,7 +926,7 @@ msgstr "Dölj tomrum"
 #. module: mis_builder
 #: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__hide_empty_inherit
 msgid "Hide Empty Inherit"
-msgstr "Hide Empty Inherit"
+msgstr "Dölj tomt arv"
 
 #. module: mis_builder
 #: model:ir.model.fields,field_description:mis_builder.field_add_mis_report_instance_dashboard_wizard__id
@@ -969,7 +976,7 @@ msgstr "Indragsnivån måste vara större än eller lika med 0"
 #. odoo-javascript
 #: code:addons/mis_builder/static/src/annotation_dialog/annotation_dialog.xml:0
 msgid "Insert note here"
-msgstr ""
+msgstr "Infoga anteckning här"
 
 #. module: mis_builder
 #: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_style__font_style__italic
@@ -1020,7 +1027,7 @@ msgstr "KPI-sekvens"
 #. odoo-python
 #: code:addons/mis_builder/models/mis_report.py:0
 msgid "KPI name (%s) must be a valid python identifier"
-msgstr ""
+msgstr "KPI-namnet (%s) måste vara en giltig Python-identifierare"
 
 #. module: mis_builder
 #: model:ir.model.fields,field_description:mis_builder.field_mis_report__kpi_ids
@@ -1185,12 +1192,12 @@ msgstr "Mallar för MIS-rapporter"
 #. module: mis_builder
 #: model:res.groups,name:mis_builder.group_edit_annotation
 msgid "MIS Report: add annotations"
-msgstr ""
+msgstr "MIS Rapport: lägg till anteckning"
 
 #. module: mis_builder
 #: model:res.groups,name:mis_builder.group_read_annotation
 msgid "MIS Report: view annotations"
-msgstr ""
+msgstr "MIS Rapport: visa anteckning"
 
 #. module: mis_builder
 #: model:ir.ui.menu,name:mis_builder.mis_report_conf_menu
@@ -1227,7 +1234,7 @@ msgstr "Min"
 #. module: mis_builder
 #: model:ir.model,name:mis_builder.model_mis_report_instance_annotation
 msgid "Mis Report Instance Annotation"
-msgstr ""
+msgstr "Mis Rapport: Instansanteckning"
 
 #. module: mis_builder
 #: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__mode
@@ -1311,7 +1318,7 @@ msgstr "Normal"
 #. module: mis_builder
 #: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_annotation__note
 msgid "Note"
-msgstr ""
+msgstr "Notering"
 
 #. module: mis_builder
 #: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_style_view_form
