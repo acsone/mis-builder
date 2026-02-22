@@ -517,3 +517,16 @@ class TestAEP(common.TransactionCase):
         )
         initial = self._eval_by_account_id("bali[]")
         self.assertEqual(initial, {self.account_ar.id: 950, self.account_in.id: -850})
+
+    def test_multiline_expr(self):
+        expr = "\nbalp[\n40%\n]"
+        self.aep.parse_expr(expr)
+        self.aep.done_parsing()
+        account_ids = self.aep.get_account_ids_for_expr(expr)
+        self.assertTrue(len(account_ids) > 0)
+        for account in self.env["account.account"].browse(account_ids):
+            self.assertTrue(account.code.startswith("40"))
+        self._do_queries(
+            datetime.date(self.curr_year, 4, 1), datetime.date(self.curr_year, 4, 30)
+        )
+        safe_eval(self.aep.replace_expr(expr))

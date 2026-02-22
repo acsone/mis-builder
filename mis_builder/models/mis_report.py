@@ -766,7 +766,7 @@ class MisReport(models.Model):
                             continue
                         drilldown_arg["period_id"] = col_key
                         drilldown_arg["kpi_id"] = kpi.id
-                    kpi_matrix.set_values_detail_account(
+                    kpi_matrix.set_values_detail(
                         kpi, col_key, account_id, vals, drilldown_args
                     )
 

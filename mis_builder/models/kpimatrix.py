@@ -1,8 +1,12 @@
 # Copyright 2014 ACSONE SA/NV (<http://acsone.eu>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
+from __future__ import annotations
+
 import logging
 from collections import OrderedDict, defaultdict
+from dataclasses import dataclass
+from typing import Self
 
 from odoo.exceptions import UserError
 
@@ -14,19 +18,40 @@ from .simple_array import SimpleArray
 _logger = logging.getLogger(__name__)
 
 
+@dataclass
+class KpiMatrixDetailKey:
+    account_id: int
+    company_id: int
+
+    def pack(self) -> str:
+        return f"{self.account_id}|{self.company_id}"
+
+    @classmethod
+    def unpack(cls, packed_str: str) -> Self:
+        account_id_str, company_id_str = packed_str.split("|")
+        return cls(int(account_id_str), int(company_id_str))
+
+    def get_label(self, matrix: KpiMatrix) -> str:
+        account = matrix._account_model.browse(self.account_id)
+        label = f"{account.code} {account.name}"
+        if matrix._multi_company:
+            label += f" [{account.company_id.name}]"
+        return label
+
+
 class KpiMatrixRow:
     # TODO: ultimately, the kpi matrix will become ignorant of KPI's and
     #       accounts and know about rows, columns, sub columns and styles only.
     #       It is already ignorant of period and only knowns about columns.
     #       This will require a correct abstraction for expanding row details.
 
-    def __init__(self, matrix, kpi, account_id=None, parent_row=None):
+    def __init__(self, matrix, kpi, detail_key=None, parent_row=None):
         self._matrix = matrix
         self.kpi = kpi
-        self.account_id = account_id
+        self.detail_key = detail_key
         self.description = ""
         self.parent_row = parent_row
-        if not self.account_id:
+        if not self.detail_key:
             self.style_props = self._matrix._style_model.merge(
                 [self.kpi.report_id.style_id, self.kpi.style_id]
             )
@@ -37,10 +62,10 @@ class KpiMatrixRow:
 
     @property
     def label(self):
-        if not self.account_id:
+        if not self.detail_key:
             return self.kpi.description
         else:
-            return self._matrix.get_account_name(self.account_id)
+            return self.detail_key.get_label(self._matrix)
 
     @property
     def row_id(self):
@@ -152,7 +177,7 @@ class KpiMatrix:
         # data structures
         # { kpi: KpiMatrixRow }
         self._kpi_rows = OrderedDict()
-        # { kpi: {account_id: KpiMatrixRow} }
+        # { kpi: {detail_key: KpiMatrixRow} }
         self._detail_rows = {}
         # { col_key: KpiMatrixCol }
         self._cols = OrderedDict()
@@ -160,8 +185,6 @@ class KpiMatrix:
         self._comparison_todo = defaultdict(list)
         # { col_key (left of sum): (col_key, [(sign, sum_col_key)])
         self._sum_todo = {}
-        # { account_id: account_name }
-        self._account_names = {}
         self._multi_company = multi_company
 
     def declare_kpi(self, kpi):
@@ -207,26 +230,26 @@ class KpiMatrix:
 
         Invoke this after declaring the kpi and the column.
         """
-        self.set_values_detail_account(
+        self.set_values_detail(
             kpi, col_key, None, vals, drilldown_args, tooltips
         )
 
-    def set_values_detail_account(
-        self, kpi, col_key, account_id, vals, drilldown_args, tooltips=True
+    def set_values_detail(
+        self, kpi, col_key, detail_key, vals, drilldown_args, tooltips=True
     ):
         """Set values for a kpi and a column and a detail account.
 
         Invoke this after declaring the kpi and the column.
         """
-        if not account_id:
+        if not detail_key:
             row = self._kpi_rows[kpi]
         else:
             kpi_row = self._kpi_rows[kpi]
-            if account_id in self._detail_rows[kpi]:
-                row = self._detail_rows[kpi][account_id]
+            if detail_key in self._detail_rows[kpi]:
+                row = self._detail_rows[kpi][detail_key]
             else:
-                row = KpiMatrixRow(self, kpi, account_id, parent_row=kpi_row)
-                self._detail_rows[kpi][account_id] = row
+                row = KpiMatrixRow(self, kpi, detail_key, parent_row=kpi_row)
+                self._detail_rows[kpi][detail_key] = row
         col = self._cols[col_key]
         cell_tuple = []
         assert len(vals) == col.colspan
@@ -409,7 +432,7 @@ class KpiMatrix:
             for row in self.iter_rows():
                 acc = SimpleArray([AccountingNone] * (len(common_subkpis) or 1))
                 if row.kpi.accumulation_method == ACC_SUM and not (
-                    row.account_id and not sum_accdet
+                    row.detail_key and not sum_accdet
                 ):
                     for sign, col_to_sum in col_to_sum_keys:
                         cell_tuple = self._cols[col_to_sum].get_cell_tuple_for_row(row)
@@ -429,7 +452,7 @@ class KpiMatrix:
                 self.set_values_detail_account(
                     row.kpi,
                     sumcol_key,
-                    row.account_id,
+                    row.detail_key,
                     acc,
                     [None] * (len(common_subkpis) or 1),
                     tooltips=False,
@@ -462,24 +485,6 @@ class KpiMatrix:
         """
         for col in self.iter_cols():
             yield from col.iter_subcols()
-
-    def _load_account_names(self):
-        account_ids = set()
-        for detail_rows in self._detail_rows.values():
-            account_ids.update(detail_rows.keys())
-        accounts = self._account_model.search([("id", "in", list(account_ids))])
-        self._account_names = {a.id: self._get_account_name(a) for a in accounts}
-
-    def _get_account_name(self, account):
-        result = f"{account.code} {account.name}"
-        if self._multi_company:
-            result = f"{result} [{account.company_id.name}]"
-        return result
-
-    def get_account_name(self, account_id):
-        if account_id not in self._account_names:
-            self._load_account_names()
-        return self._account_names[account_id]
 
     def as_dict(self):
         header = [{"cols": []}, {"cols": []}]
@@ -532,7 +537,7 @@ class KpiMatrix:
                             cell.style_props, no_indent=True
                         ),
                         # notes can not be added on 'details by account' lines
-                        "can_be_annotated": not cell.row.account_id,
+                        "can_be_annotated": not cell.row.detail_key,
                     }
                     if cell.drilldown_arg:
                         col_data["drilldown_arg"] = cell.drilldown_arg
@@ -548,29 +553,38 @@ class KpiMatrix:
     # semantic domain occur.
 
     @classmethod
-    def _make_row_id(cls, kpi_id: int, account_id: int | None) -> str:
-        return f"{kpi_id}:{account_id or ''}"
+    def _make_row_id(cls, kpi_id: int, detail_key: KpiMatrixDetailKey | None) -> str:
+        return f"{kpi_id}:{detail_key.pack() if detail_key else ''}"
 
     @classmethod
     def _make_cell_id(
-        cls, kpi_id: int, account_id: int | None, period_id: int, subkpi_id: int | None
+        cls,
+        kpi_id: int,
+        detail_key: KpiMatrixDetailKey | None,
+        period_id: int,
+        subkpi_id: int | None,
     ) -> str:
-        return f"{kpi_id}#{account_id or ''}#{period_id}#{subkpi_id or ''}"
+        return (
+            f"{kpi_id}"
+            f"#{detail_key.pack() if detail_key else ''}"
+            f"#{period_id}"
+            f"#{subkpi_id or ''}"
+        )
 
     @classmethod
     def _pack_cell_id(cls, cell: KpiMatrixCell) -> str:
         return cls._make_cell_id(
             cell.row.kpi.id,
-            cell.row.account_id,
+            cell.row.detail_key,
             cell.subcol.col.key,
             cell.subcol.subkpi and cell.subcol.subkpi.id,
         )
 
     @classmethod
     def _unpack_cell_id(cls, cell_id: str) -> tuple[int, int | None, int, int | None]:
-        kpi_id, account_id, col_key, subkpi_id = cell_id.split("#")
-        kpi_id = int(kpi_id)
-        account_id = int(account_id) if account_id else None
-        period_id = int(col_key)
-        subkpi_id = int(subkpi_id) if subkpi_id else None
-        return kpi_id, account_id, period_id, subkpi_id
+        kpi_id_str, detail_key_str, col_key_str, subkpi_id_str = cell_id.split("#")
+        kpi_id = int(kpi_id_str)
+        detail_key = KpiMatrixRow.unpack(detail_key_str) if detail_key_str else None
+        period_id = int(col_key_str)
+        subkpi_id = int(subkpi_id_str) if subkpi_id_str else None
+        return kpi_id, detail_key, period_id, subkpi_id
