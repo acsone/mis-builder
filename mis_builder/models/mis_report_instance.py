@@ -776,9 +776,14 @@ class MisReportInstance(models.Model):
         result = super().get_views(views, options)
         return result
 
+    def _check_report_constraint(self):
+        self.ensure_one()
+        self.report_id._check_constraint(self.query_company_ids)
+
     def preview(self):
         self.ensure_one()
-        view_id = self.env.ref("mis_builder." "mis_report_instance_result_view_form")
+        self._check_report_constraint()
+        view_id = self.env.ref("mis_builder.mis_report_instance_result_view_form")
         return {
             "type": "ir.actions.act_window",
             "res_model": "mis.report.instance",
@@ -791,6 +796,7 @@ class MisReportInstance(models.Model):
 
     def print_pdf(self):
         self.ensure_one()
+        self._check_report_constraint()
         return (
             self.env.ref("mis_builder.qweb_pdf_export")
             .with_context(landscape=self.landscape_pdf)
@@ -799,6 +805,7 @@ class MisReportInstance(models.Model):
 
     def export_xls(self):
         self.ensure_one()
+        self._check_report_constraint()
         return self.env.ref("mis_builder.xls_export").report_action(
             self, data=dict(dummy=True)
         )  # required to propagate context
