@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-05-08 07:41+0000\n"
+"PO-Revision-Date: 2026-05-08 09:45+0000\n"
 "Last-Translator: Betül Öğmen <betulo@eska.biz>\n"
 "Language-Team: none\n"
 "Language: tr\n"
@@ -115,62 +115,62 @@ msgstr "Ek Sayısı"
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_by_account_item__balance
 msgid "Balance"
-msgstr ""
+msgstr "Bakiye"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_by_account_item__budget_id
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_item__budget_id
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_item_abstract__budget_id
 msgid "Budget"
-msgstr ""
+msgstr "Bütçe"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_by_account_item__budget_date_from
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_item__budget_date_from
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_item_abstract__budget_date_from
 msgid "Budget Date From"
-msgstr ""
+msgstr "Bütçe Başlangıç Tarihi"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_by_account_item__budget_date_to
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_item__budget_date_to
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_item_abstract__budget_date_to
 msgid "Budget Date To"
-msgstr ""
+msgstr "Bütçe Bitiş Tarihi"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_report_instance_period__source_mis_budget_by_account_id
 msgid "Budget by Account"
-msgstr ""
+msgstr "Hesaba Göre Bütçe"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_report_instance_period__source_mis_budget_id
 msgid "Budget by KPI"
-msgstr ""
+msgstr "KPI'a Göre Bütçe"
 
 #. module: mis_builder_budget
 #: model_terms:ir.ui.view,arch_db:mis_builder_budget.mis_budget_by_account_form_view
 #: model_terms:ir.ui.view,arch_db:mis_builder_budget.mis_budget_form_view
 msgid "Budget items"
-msgstr ""
+msgstr "Bütçe kalemleri"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_report_kpi__budgetable
 msgid "Budgetable"
-msgstr ""
+msgstr "Bütçelenebilir"
 
 #. module: mis_builder_budget
 #: model_terms:ir.ui.view,arch_db:mis_builder_budget.mis_budget_by_account_form_view
 #: model_terms:ir.ui.view,arch_db:mis_builder_budget.mis_budget_form_view
 msgid "Cancel"
-msgstr ""
+msgstr "İptal"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields.selection,name:mis_builder_budget.selection__mis_budget__state__cancelled
 #: model:ir.model.fields.selection,name:mis_builder_budget.selection__mis_budget_abstract__state__cancelled
 #: model:ir.model.fields.selection,name:mis_builder_budget.selection__mis_budget_by_account__state__cancelled
 msgid "Cancelled"
-msgstr ""
+msgstr "İptal Edildi"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget__company_id
@@ -179,25 +179,25 @@ msgstr ""
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_by_account_item__company_id
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_item__company_id
 msgid "Company"
-msgstr ""
+msgstr "Şirket"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_by_account_item__company_currency_id
 msgid "Company Currency"
-msgstr ""
+msgstr "Şirketin Para Birimi"
 
 #. module: mis_builder_budget
 #: model_terms:ir.ui.view,arch_db:mis_builder_budget.mis_budget_by_account_form_view
 #: model_terms:ir.ui.view,arch_db:mis_builder_budget.mis_budget_form_view
 msgid "Confirm"
-msgstr ""
+msgstr "Onayla"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields.selection,name:mis_builder_budget.selection__mis_budget__state__confirmed
 #: model:ir.model.fields.selection,name:mis_builder_budget.selection__mis_budget_abstract__state__confirmed
 #: model:ir.model.fields.selection,name:mis_builder_budget.selection__mis_budget_by_account__state__confirmed
 msgid "Confirmed"
-msgstr ""
+msgstr "Onaylandı"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget__create_uid
@@ -205,7 +205,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_by_account_item__create_uid
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_item__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Oluşturan"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget__create_date
@@ -213,17 +213,17 @@ msgstr ""
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_by_account_item__create_date
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_item__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Oluşturulma"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_by_account_item__credit
 msgid "Credit"
-msgstr ""
+msgstr "Alacak"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_by_account_item__date
 msgid "Date"
-msgstr ""
+msgstr "Tarih"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget__date_range_id
@@ -233,19 +233,19 @@ msgstr ""
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_item__date_range_id
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_item_abstract__date_range_id
 msgid "Date range"
-msgstr ""
+msgstr "Tarih Aralığı"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_by_account_item__debit
 msgid "Debit"
-msgstr ""
+msgstr "Borç"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget__description
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_abstract__description
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_by_account__description
 msgid "Description"
-msgstr ""
+msgstr "Açıklama"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget__display_name
@@ -253,39 +253,41 @@ msgstr ""
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_by_account_item__display_name
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_item__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Görünüm Adı"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_by_account_item__distribution_analytic_account_ids
 msgid "Distribution Analytic Account"
-msgstr ""
+msgstr "Analitik Dağıtım Hesabı"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields.selection,name:mis_builder_budget.selection__mis_budget__state__draft
 #: model:ir.model.fields.selection,name:mis_builder_budget.selection__mis_budget_abstract__state__draft
 #: model:ir.model.fields.selection,name:mis_builder_budget.selection__mis_budget_by_account__state__draft
 msgid "Draft"
-msgstr ""
+msgstr "Taslak"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,help:mis_builder_budget.field_mis_budget_by_account_item__date
 msgid ""
 "Dummy field that adapts searches on date to searches on date_from/date_to."
 msgstr ""
+"Tarihteki aramaları date_from/date_to üzerindeki aramalara uyarlayan boş "
+"alan."
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget__message_follower_ids
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_abstract__message_follower_ids
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_by_account__message_follower_ids
 msgid "Followers"
-msgstr ""
+msgstr "Takipçiler"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget__message_partner_ids
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_abstract__message_partner_ids
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_by_account__message_partner_ids
 msgid "Followers (Partners)"
-msgstr ""
+msgstr "Takipçiler (İş Ortakları)"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget__date_from
@@ -302,7 +304,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_abstract__has_message
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_by_account__has_message
 msgid "Has Message"
-msgstr ""
+msgstr "Mesaj var"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget__id
@@ -317,47 +319,47 @@ msgstr ""
 #: model:ir.model.fields,help:mis_builder_budget.field_mis_budget_abstract__message_needaction
 #: model:ir.model.fields,help:mis_builder_budget.field_mis_budget_by_account__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr ""
+msgstr "İşaretlenirse, yeni iletilerle ilgilenmeniz gerekir."
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,help:mis_builder_budget.field_mis_budget_by_account__allow_items_overlap
 msgid "If checked, overlap between budget items is allowed"
-msgstr ""
+msgstr "İşaretliyse, bütçe kalemleri arasında çakışmaya izin verilir"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,help:mis_builder_budget.field_mis_budget__message_has_error
 #: model:ir.model.fields,help:mis_builder_budget.field_mis_budget_abstract__message_has_error
 #: model:ir.model.fields,help:mis_builder_budget.field_mis_budget_by_account__message_has_error
 msgid "If checked, some messages have a delivery error."
-msgstr ""
+msgstr "İşaretliyse, bazı iletilerde teslim hatası olur."
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget__message_is_follower
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_abstract__message_is_follower
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_by_account__message_is_follower
 msgid "Is Follower"
-msgstr ""
+msgstr "Takipçi Mi"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget__item_ids
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_by_account__item_ids
 msgid "Item"
-msgstr ""
+msgstr "Kalem"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_item__kpi_expression_id
 msgid "KPI"
-msgstr ""
+msgstr "KPI"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_item__seq1
 msgid "KPI Sequence"
-msgstr ""
+msgstr "KPI Sırası"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_by_account_item__name
 msgid "Label"
-msgstr ""
+msgstr "Etiket"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget__write_uid
@@ -365,7 +367,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_by_account_item__write_uid
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_item__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Son Güncelleyen"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget__write_date
@@ -373,101 +375,101 @@ msgstr ""
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_by_account_item__write_date
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_item__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Son Güncelleme"
 
 #. module: mis_builder_budget
 #: model:ir.model,name:mis_builder_budget.model_mis_budget_abstract
 msgid "MIS Budget (Abstract Base Class)"
-msgstr ""
+msgstr "MIS Bütçe (Soyut Temel Sınıf)"
 
 #. module: mis_builder_budget
 #: model:ir.model,name:mis_builder_budget.model_mis_budget_item_abstract
 msgid "MIS Budget Item (Abstract Base Class)"
-msgstr ""
+msgstr "MIS Bütçe Kalemleri (Soyut Temel Sınıf)"
 
 #. module: mis_builder_budget
 #: model:ir.model,name:mis_builder_budget.model_mis_budget_by_account_item
 msgid "MIS Budget Item (by Account)"
-msgstr ""
+msgstr "MIS Bütçe Kalemi (Hesaba Göre)"
 
 #. module: mis_builder_budget
 #: model:ir.model,name:mis_builder_budget.model_mis_budget_item
 msgid "MIS Budget Item (by KPI)"
-msgstr ""
+msgstr "MIS Bütçe Kalemi (KPI'a Göre)"
 
 #. module: mis_builder_budget
 #: model:ir.actions.act_window,name:mis_builder_budget.mis_budget_item_act_window
 msgid "MIS Budget Items (by KPIs)"
-msgstr ""
+msgstr "MIS Bütçe Kalemleri (KPI'lara Göre)"
 
 #. module: mis_builder_budget
 #: model:ir.actions.act_window,name:mis_builder_budget.mis_budget_by_account_item_act_window
 msgid "MIS Budget Items (by accounts)"
-msgstr ""
+msgstr "MIS Bütçe Kalemleri (Hesaplara Göre)"
 
 #. module: mis_builder_budget
 #: model:ir.model,name:mis_builder_budget.model_mis_budget_by_account
 #: model:ir.model.fields.selection,name:mis_builder_budget.selection__mis_report_instance_period__source__mis_budget_by_account
 msgid "MIS Budget by Account"
-msgstr ""
+msgstr "Hesaba Göre MIS Bütçe"
 
 #. module: mis_builder_budget
 #: model:ir.model,name:mis_builder_budget.model_mis_budget
 #: model:ir.model.fields.selection,name:mis_builder_budget.selection__mis_report_instance_period__source__mis_budget
 msgid "MIS Budget by KPI"
-msgstr ""
+msgstr "KPI'a Göre MIS Bütçe"
 
 #. module: mis_builder_budget
 #: model:ir.actions.act_window,name:mis_builder_budget.mis_budget_act_window
 #: model:ir.ui.menu,name:mis_builder_budget.mis_budget_menu
 msgid "MIS Budgets (by KPIs)"
-msgstr ""
+msgstr "MIS Bütçeleri (KPI'lara Göre)"
 
 #. module: mis_builder_budget
 #: model:ir.actions.act_window,name:mis_builder_budget.mis_budget_by_account_act_window
 #: model:ir.ui.menu,name:mis_builder_budget.mis_budget_by_account_menu
 msgid "MIS Budgets (by accounts)"
-msgstr ""
+msgstr "MIS Bütçeleri (Hesaplara Göre)"
 
 #. module: mis_builder_budget
 #: model:ir.model,name:mis_builder_budget.model_mis_report_instance
 msgid "MIS Report Instance"
-msgstr ""
+msgstr "MIS Rapor Örneği"
 
 #. module: mis_builder_budget
 #: model:ir.model,name:mis_builder_budget.model_mis_report_instance_period
 msgid "MIS Report Instance Period"
-msgstr ""
+msgstr "MIS Rapor Örnek Aralığı"
 
 #. module: mis_builder_budget
 #: model:ir.model,name:mis_builder_budget.model_mis_report_kpi
 msgid "MIS Report KPI"
-msgstr ""
+msgstr "MIS Rapor KPI"
 
 #. module: mis_builder_budget
 #: model:ir.model,name:mis_builder_budget.model_mis_report_kpi_expression
 msgid "MIS Report KPI Expression"
-msgstr ""
+msgstr "MIS Rapor KPI İfadesi"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget__report_id
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_item__report_id
 msgid "MIS Report Template"
-msgstr ""
+msgstr "MIS Rapor Şablonu"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget__message_has_error
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_abstract__message_has_error
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_by_account__message_has_error
 msgid "Message Delivery error"
-msgstr ""
+msgstr "Mesaj Teslim Hatası"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget__message_ids
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_abstract__message_ids
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_by_account__message_ids
 msgid "Messages"
-msgstr ""
+msgstr "Mesajlar"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget__name
@@ -475,58 +477,58 @@ msgstr ""
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_by_account__name
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_item__name
 msgid "Name"
-msgstr ""
+msgstr "Adı"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget__message_needaction_counter
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_abstract__message_needaction_counter
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_by_account__message_needaction_counter
 msgid "Number of Actions"
-msgstr ""
+msgstr "Eylemlerin Sayısı"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget__message_has_error_counter
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_abstract__message_has_error_counter
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_by_account__message_has_error_counter
 msgid "Number of errors"
-msgstr ""
+msgstr "Hataların Sayısı"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,help:mis_builder_budget.field_mis_budget__message_needaction_counter
 #: model:ir.model.fields,help:mis_builder_budget.field_mis_budget_abstract__message_needaction_counter
 #: model:ir.model.fields,help:mis_builder_budget.field_mis_budget_by_account__message_needaction_counter
 msgid "Number of messages requiring action"
-msgstr ""
+msgstr "Eylem gerektiren mesaj sayısı"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,help:mis_builder_budget.field_mis_budget__message_has_error_counter
 #: model:ir.model.fields,help:mis_builder_budget.field_mis_budget_abstract__message_has_error_counter
 #: model:ir.model.fields,help:mis_builder_budget.field_mis_budget_by_account__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr ""
+msgstr "Teslimat hatası olan mesaj sayısı"
 
 #. module: mis_builder_budget
 #: model_terms:ir.ui.view,arch_db:mis_builder_budget.mis_budget_by_account_form_view
 #: model_terms:ir.ui.view,arch_db:mis_builder_budget.mis_budget_form_view
 msgid "Set draft"
-msgstr ""
+msgstr "Taslak olarak ayarla"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_report_instance_period__source
 msgid "Source"
-msgstr ""
+msgstr "Kaynak"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget__state
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_abstract__state
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_by_account__state
 msgid "State"
-msgstr ""
+msgstr "Durum"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_item__seq2
 msgid "Sub-KPI Sequence"
-msgstr ""
+msgstr "Alt-KPI Sırası"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget__date_to
@@ -536,26 +538,26 @@ msgstr ""
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_item__date_to
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_item_abstract__date_to
 msgid "To"
-msgstr ""
+msgstr "Bitiş"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,help:mis_builder_budget.field_mis_budget_by_account_item__company_currency_id
 msgid "Utility field to express amount currency"
-msgstr ""
+msgstr "Miktar para birimini ifade etmek için kullanım alanı"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget__website_message_ids
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_abstract__website_message_ids
 #: model:ir.model.fields,field_description:mis_builder_budget.field_mis_budget_by_account__website_message_ids
 msgid "Website Messages"
-msgstr ""
+msgstr "Websitesi Mesajları"
 
 #. module: mis_builder_budget
 #: model:ir.model.fields,help:mis_builder_budget.field_mis_budget__website_message_ids
 #: model:ir.model.fields,help:mis_builder_budget.field_mis_budget_abstract__website_message_ids
 #: model:ir.model.fields,help:mis_builder_budget.field_mis_budget_by_account__website_message_ids
 msgid "Website communication history"
-msgstr ""
+msgstr "Web Sitesi iletişim geçmişi"
 
 #. module: mis_builder_budget
 #: model:ir.model.constraint,message:mis_builder_budget.constraint_mis_budget_by_account_item_credit_debit2
@@ -563,9 +565,13 @@ msgid ""
 "Wrong credit or debit value in budget item! Credit and debit should be "
 "positive."
 msgstr ""
+"Bütçe kaleminde yanlış alacak veya borç değeri! Alacak veya borç pozitif "
+"olmalıdır."
 
 #. module: mis_builder_budget
 #: model:ir.model.constraint,message:mis_builder_budget.constraint_mis_budget_by_account_item_credit_debit1
 msgid ""
 "Wrong credit or debit value in budget item! Credit or debit should be zero."
 msgstr ""
+"Bütçe kaleminde yanlış alacak veya borç değeri! Alacak veya borç sıfır "
+"olmalıdır."
