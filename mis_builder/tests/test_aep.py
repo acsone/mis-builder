@@ -127,9 +127,9 @@ class TestAEP(common.TransactionCase):
         self.aep.parse_expr("fldp.quantity[700%]")
         self.aep.parse_expr("balp[][('account_id.code', '=', '400AR')]")
         self.aep.parse_expr(
-            "balp[][('account_id.account_type', '=',  'asset_receivable')]"
+            "balp[][('account_id.account_type', '=', 'asset_receivable')]"
         )
-        self.aep.parse_expr("balp[('account_type', '=',       'asset_receivable')]")
+        self.aep.parse_expr("balp[('account_type', '=', 'asset_receivable')]")
         self.aep.parse_expr(
             "balp['&', "
             "     ('account_type', '=', "
@@ -221,13 +221,11 @@ class TestAEP(common.TransactionCase):
         self.assertEqual(self._eval("balp[400AR]"), 100)
         self.assertEqual(self._eval("balp[][('account_id.code', '=', '400AR')]"), 100)
         self.assertEqual(
-            self._eval(
-                "balp[][('account_id.account_type', '=',   'asset_receivable')]"
-            ),
+            self._eval("balp[][('account_id.account_type', '=', 'asset_receivable')]"),
             100,
         )
         self.assertEqual(
-            self._eval("balp[('account_type', '=',       'asset_receivable')]"),
+            self._eval("balp[('account_type', '=', 'asset_receivable')]"),
             100,
         )
         self.assertEqual(
